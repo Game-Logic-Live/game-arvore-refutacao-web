@@ -47,6 +47,7 @@
           *ngIf="arvoreManager.getArvore().isCompleto"
           [passos]="passos"
           [console]="console"
+          [isCorreta]="respostaIsCorreta"
           (eventConfirm)="concluir($event)">
         </app-pergunta-final>
       </div>

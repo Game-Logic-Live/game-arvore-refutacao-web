@@ -12,15 +12,12 @@ import { Passos } from 'src/app/common/models/Passos';
 export class PerguntaFinalComponent implements OnInit {
   @Input() console: Console;
   @Input() passos: Passos;
+  @Input() isCorreta: boolean | null;
   @Output() eventConfirm = new EventEmitter<PassoFinalizar>();
 
-  resposta = {
-    valor: null,
-    sucesso: null,
-    classes: {
-      contradicao: { 'select-contradicao': false },
-      tautologia: { 'select-tautologia': false },
-    },
+  classes = {
+    contradicao: { 'select-contradicao': false },
+    tautologia: { 'select-tautologia': false },
   };
   constructor() {}
 
@@ -28,12 +25,12 @@ export class PerguntaFinalComponent implements OnInit {
 
   seleciona(resp: string) {
     if (resp === 'TAUTOLOGIA') {
-      this.resposta.classes.contradicao = { 'select-contradicao': false };
-      this.resposta.classes.tautologia = { 'select-tautologia': true };
+      this.classes.contradicao = { 'select-contradicao': false };
+      this.classes.tautologia = { 'select-tautologia': true };
       this.passos.setFinalizar(Resposta.tautologia);
     } else if (resp === 'CONTRADICAO') {
-      this.resposta.classes.contradicao = { 'select-contradicao': true };
-      this.resposta.classes.tautologia = { 'select-tautologia': false };
+      this.classes.contradicao = { 'select-contradicao': true };
+      this.classes.tautologia = { 'select-tautologia': false };
       this.passos.setFinalizar(Resposta.contradicao);
     }
   }

@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  faExclamationTriangle,
-  faEye,
-  faQuestionCircle,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { ArvoreAutomatica } from 'src/app/common/interfaces/arvore/arvoreAutomatica';
-
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Console } from 'src/app/common/models/Console';
 import { ArvoreManager } from 'src/app/common/models/ArvoreManager';
 import { Selecao } from 'src/app/common/models/Selecao';
@@ -15,11 +8,13 @@ import { Passos } from 'src/app/common/models/Passos';
 import { EtapasEmProgresso } from 'src/app/common/models/EtapasEmProgresso';
 import { Acoes } from 'src/app/common/enums/Acoes';
 import { Logs } from 'src/app/common/enums/Logs';
-import { Subject } from 'rxjs';
 import { ArvoreService } from '../../common/services/arvore.service';
 import { EstudoLivreService } from './estudo-livre.service';
-import { ArvoreResponse, ConcluirEstudoLivreInput } from './interfaces';
-import { Resposta } from 'src/app/common/enums/Resposta';
+import {
+  ArvoreResponse,
+  ConcluirEstudoLivreInput,
+  HashInput,
+} from './interfaces';
 import { Formula } from 'src/app/common/models/Formula';
 import { PassoFinalizar } from 'src/app/common/interfaces/passo/PassoFinalizar';
 
@@ -37,9 +32,9 @@ export class EstudoLivreComponent implements OnInit {
   selecao: Selecao = new Selecao();
   passos: Passos = new Passos();
   formula: Formula = new Formula();
-
+  hashInput: HashInput;
   concluirInput: ConcluirEstudoLivreInput | null = null;
-
+  respostaIsCorreta = null;
   iniciandoEstudo = false;
   concluindoEstudo = false;
 
@@ -63,10 +58,9 @@ export class EstudoLivreComponent implements OnInit {
       ) {
         this.router.navigate(['exercicio/erro']);
       }
-      this.concluirInput = {
+      this.hashInput = {
         usuHash: queryParams.usu_hash,
         exeHash: queryParams.exe_hash,
-        arvore: this.arvoreManager.getArvore(),
       };
     });
   }
@@ -152,19 +146,6 @@ export class EstudoLivreComponent implements OnInit {
     );
   }
 
-  fecharAvisoError() {
-    this.globalErro.msg = '';
-    this.globalErro.isAberto = false;
-  }
-  abrirAvisoError(msg: string) {
-    this.globalErro.msg = msg;
-    this.globalErro.isAberto = true;
-
-    setTimeout(() => {
-      this.fecharAvisoError();
-    }, 5000);
-  }
-
   iniciarEstudo(formula: Formula) {
     this.formula = formula;
     this.console.addLog('Iniciando exercício', Logs.info, true);
@@ -177,12 +158,12 @@ export class EstudoLivreComponent implements OnInit {
 
             this.sucessoNaRequisicao(response, Acoes.iniciar);
           } else {
-            this.abrirAvisoError(response.msg);
+            this.console.addLog(response.msg, Logs.erro, false);
           }
           this.iniciandoEstudo = false;
         },
         erro => {
-          this.abrirAvisoError('Ops! Ocorreu um erro ao inicar os estudos');
+          this.erroNaRequisicao(erro);
           this.iniciandoEstudo = false;
         },
       );
@@ -191,25 +172,29 @@ export class EstudoLivreComponent implements OnInit {
 
   concluir(passo: PassoFinalizar) {
     this.concluindoEstudo = true;
-    this.concluirInput.arvore = this.arvoreManager.getArvore();
-    this.service.concluir(this.concluirInput).subscribe(
-      response => {
-        if (response.success) {
+    this.console.addLog('Validando resposta', Logs.info, true);
+    this.service
+      .concluir(this.arvoreManager.getArvore(), passo, this.hashInput)
+      .subscribe(
+        response => {
+          if (response.success) {
+            this.respostaIsCorreta = true;
+            this.concluindoEstudo = false;
+            this.console = new Console();
+            this.etapasEmProgresso = new EtapasEmProgresso();
+            this.arvoreManager = new ArvoreManager();
+            this.selecao = new Selecao();
+            this.passos = new Passos();
+            this.formula = new Formula();
+          } else {
+            this.respostaIsCorreta = false;
+            this.console.addLog(response.msg, Logs.erro, false);
+          }
+        },
+        error => {
+          this.erroNaRequisicao(error);
           this.concluindoEstudo = false;
-          this.console = new Console();
-          this.etapasEmProgresso = new EtapasEmProgresso();
-          this.arvoreManager = new ArvoreManager();
-          this.selecao = new Selecao();
-          this.passos = new Passos();
-          this.formula = new Formula();
-        } else {
-          this.abrirAvisoError(response.msg);
-        }
-      },
-      error => {
-        this.abrirAvisoError('Ops! Ocorreu um erro ao inicar os estudos');
-        this.concluindoEstudo = false;
-      },
-    );
+        },
+      );
   }
 }

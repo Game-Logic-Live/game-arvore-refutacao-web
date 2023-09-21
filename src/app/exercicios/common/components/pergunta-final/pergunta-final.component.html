@@ -8,7 +8,7 @@
   <div class="p-3 flex-um d-flex flex-column">
     <div class="botoes-fim mt-2">
       <div
-        *ngIf="resposta.sucesso == null"
+        *ngIf="isCorreta == null"
         class="text-center d-flex align-items-center flex-column">
         <img
           class="img-fluid"
@@ -19,55 +19,53 @@
         </span>
       </div>
       <div
-        *ngIf="resposta.sucesso == false"
+        *ngIf="isCorreta == false"
         class="text-center d-flex align-items-center flex-column">
         <img
           class="img-fluid"
           src="assets/img/emoji-triste.png"
           style="max-width: 124px; max-height: 130px" />
-        <span class="formula-str">Ops, resposta incorreta!</span>
+        <span class="formula-str mb-3">Ops, resposta incorreta!</span>
       </div>
       <div
-        *ngIf="resposta.sucesso == true"
+        *ngIf="isCorreta == true"
         class="text-center d-flex align-items-center flex-column">
         <img
           class="img-fluid"
           src="assets/img/emoji-feliz.png"
           alt="condicional"
           style="max-width: 124px; max-height: 130px" />
-        <span class="formula-str">Parabéns! Exercício concluído</span>
+        <span class="formula-str mb-3">Parabéns! Exercício concluído</span>
       </div>
 
-      <div class="text-center" *ngIf="resposta.sucesso != true">
+      <div class="text-center" *ngIf="isCorreta != true">
         <h6>Esta fórmula é uma:</h6>
         <div class="d-flex">
           <div class="tautologia" (click)="seleciona('TAUTOLOGIA')">
             <div
               class="icon-select-tautologia"
-              [ngClass]="resposta.classes.tautologia"></div>
+              [ngClass]="classes.tautologia"></div>
             <span>Tautologia</span>
           </div>
           <div class="contradicao" (click)="seleciona('CONTRADICAO')">
             <div
               class="icon-select-contradicao"
-              [ngClass]="resposta.classes.contradicao"></div>
+              [ngClass]="classes.contradicao"></div>
             <span>Contradição</span>
           </div>
         </div>
         <div class="d-flex justify-content-center">
           <button
-            *ngIf="console.isLoading() != true"
-            class="btn btn-sm btn-tentar-novamente"
-            (click)="onResposta()"
-            [disabled]="passos.getFinalizar().resposta == null">
-            Validar resposta
+            class="btn btn-sm btn-tentar-novamente btn-block"
+            (click)="onResposta()">
+            <span *ngIf="console.isLoading() != true">Validar resposta</span>
+            <span
+              *ngIf="console.isLoading() == true"
+              class="spinner-border spinner-border-sm text-center text-light"
+              role="status">
+              <span class="sr-only">Loading...</span>
+            </span>
           </button>
-        </div>
-        <div
-          *ngIf="console.isLoading() == true"
-          class="spinner-border spinner-border-sm text-center spinner-color"
-          role="status">
-          <span class="sr-only">Loading...</span>
         </div>
       </div>
     </div>
