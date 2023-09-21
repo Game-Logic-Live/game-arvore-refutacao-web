@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { EstudoConceitosService } from '../estudo-conceitos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConcluirEstudoConceitosInput } from '../interfaces';
+import { HashInput } from '../interfaces';
 
 @Component({
   selector: 'app-regras',
@@ -12,7 +12,8 @@ import { ConcluirEstudoConceitosInput } from '../interfaces';
 export class RegrasComponent implements OnInit {
   check = faCheckSquare;
   concluindo: boolean;
-  concluirInput: ConcluirEstudoConceitosInput | null = null;
+  concluido = false;
+  hashInput: HashInput;
   constructor(
     private service: EstudoConceitosService,
     private route: ActivatedRoute,
@@ -27,7 +28,7 @@ export class RegrasComponent implements OnInit {
       ) {
         this.router.navigate(['exercicio/erro']);
       }
-      this.concluirInput = {
+      this.hashInput = {
         usuHash: queryParams.usu_hash,
         exeHash: queryParams.exe_hash,
       };
@@ -36,10 +37,11 @@ export class RegrasComponent implements OnInit {
 
   concluir() {
     this.concluindo = true;
-    this.service.concluir(this.concluirInput).subscribe(
+    this.service.concluir(this.hashInput).subscribe(
       response => {
         if (response.success) {
           this.concluindo = false;
+          this.concluido = true;
         } else {
           this.concluindo = false;
         }

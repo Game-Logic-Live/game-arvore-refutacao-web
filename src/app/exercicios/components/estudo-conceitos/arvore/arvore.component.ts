@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { EstudoConceitosService } from '../estudo-conceitos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConcluirEstudoConceitosInput } from '../interfaces';
+import { HashInput } from '../interfaces';
 
 @Component({
   selector: 'app-arvore',
@@ -11,8 +11,9 @@ import { ConcluirEstudoConceitosInput } from '../interfaces';
 })
 export class ArvoreComponent implements OnInit {
   concluindo: boolean;
+  concluido = false;
   check = faCheckSquare;
-  concluirInput: ConcluirEstudoConceitosInput | null = null;
+  hashInput: HashInput;
 
   constructor(
     private service: EstudoConceitosService,
@@ -28,7 +29,7 @@ export class ArvoreComponent implements OnInit {
       ) {
         this.router.navigate(['exercicio/erro']);
       }
-      this.concluirInput = {
+      this.hashInput = {
         usuHash: queryParams.usu_hash,
         exeHash: queryParams.exe_hash,
       };
@@ -37,10 +38,11 @@ export class ArvoreComponent implements OnInit {
 
   concluir() {
     this.concluindo = true;
-    this.service.concluir(this.concluirInput).subscribe(
+    this.service.concluir(this.hashInput).subscribe(
       response => {
         if (response.success) {
           this.concluindo = false;
+          this.concluido = true;
         } else {
           this.concluindo = false;
         }

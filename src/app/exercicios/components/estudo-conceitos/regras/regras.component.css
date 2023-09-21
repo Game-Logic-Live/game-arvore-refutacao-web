@@ -65,6 +65,11 @@ code {
   border-radius: 4px;
   border-left: 4px solid #f6c23e;
 }
-.spinner-color{
+.spinner-color {
   color: #1cc88a;
+}
+.concluido {
+  color: #4e73df;
+  font-weight: bold;
+  font-size: 18px;
 }
