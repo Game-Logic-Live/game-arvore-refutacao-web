@@ -1,4 +1,4 @@
-<div class="conteudo-derivacao shadow-sm h-100">
+<div class="conteudo-derivacao shadow-sm h-100 d-flex flex-column" >
   <div
     class="text-center titulo-modal-derivacao p-2"
     [style]="'color:' + color + ';'">
@@ -10,7 +10,7 @@
       [style]="'background-color:' + color + ';'"></div>
   </div>
 
-  <div class="text-center" style="overflow: auto">
+  <div class="text-center flex-um" style="overflow: auto;" [style]="'max-height:' + maxHeight" id="conteudoDerivacao">
     <svg [attr.width]="arvoreManager.getArvore().visualizar.width" height="660">
       <g
         *ngFor="

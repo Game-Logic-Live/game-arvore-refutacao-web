@@ -15,8 +15,18 @@ export class DerivacaoComponent implements OnInit {
   @Input() colorSecundaryFinal: string;
   @Input() arvoreManager: ArvoreManager;
   @Input() selecao: Selecao;
-
+  maxHeight = '0px';
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setMaxHeight();
+  }
+
+  setMaxHeight() {
+    const element = document.getElementById('conteudoDerivacao');
+    console.log(element);
+    if (element) {
+      this.maxHeight = element.clientHeight.toString() + 'px';
+    }
+  }
 }
