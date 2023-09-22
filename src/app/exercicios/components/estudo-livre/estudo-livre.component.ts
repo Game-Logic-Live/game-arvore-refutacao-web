@@ -186,6 +186,7 @@ export class EstudoLivreComponent implements OnInit {
             this.selecao = new Selecao();
             this.passos = new Passos();
             this.formula = new Formula();
+            this.respostaIsCorreta = null;
           } else {
             this.respostaIsCorreta = false;
             this.console.addLog(response.msg, Logs.erro, false);
