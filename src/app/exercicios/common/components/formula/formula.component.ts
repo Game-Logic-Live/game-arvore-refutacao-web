@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Formula } from '../../../../common/models/Formula';
 import { ArvoreAutomatica } from '../../../../common/interfaces/arvore/arvoreAutomatica';
 import { Subject } from 'rxjs';
-import { ArvoreService } from 'src/app/painel-controle/common/services/arvore.service';
 import {
   faExclamationTriangle,
   faEye,
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { ArvoreService } from '../../services/arvore.service';
 
 @Component({
   selector: 'app-formula',

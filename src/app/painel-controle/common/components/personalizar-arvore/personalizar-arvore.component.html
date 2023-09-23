@@ -12,7 +12,7 @@
     <div class="row h-100 py-2 py-md-4">
       <div class="col-md-8">
         <div
-          class="conteudo-personalizar mx-md-0 mx-2 mt-2 mt-md-0 shadow-sm area-svg h-100 d-flex flex-column ">
+          class="conteudo-personalizar mx-md-0 mx-2 mt-2 mt-md-0 shadow-sm area-svg h-100 d-flex flex-column">
           <div class="text-center titulo-modal p-2">
             <span>Árvore de Refutação</span>
           </div>
@@ -22,7 +22,7 @@
           <div class="text-center" style="overflow: auto">
             <svg
               [attr.width]="arvoreManager.getArvore().visualizar.width"
-              height="660">
+              [attr.height]="arvoreManager.getArvore().visualizar.height">
               <g
                 *ngFor="
                   let item of arvoreManager.getArvore().visualizar.arestas;
@@ -97,8 +97,8 @@
                     [attr.y]="item.posY - 20"
                     rx="20"
                     ry="20"
-                    [attr.width]="item.tmh"
-                    height="40"
+                    [attr.width]="item.width"
+                    [attr.height]="item.height"
                     [attr.fill]="item.fill"
                     [attr.stroke]="item.strokeColor"
                     [attr.stroke-width]="item.strokeWidth"
@@ -162,8 +162,7 @@
         </div>
       </div>
       <div class="col-md-4 order-first order-md-last d-flex flex-column">
-        <div
-          class="conteudo-personalizar mx-2 mx-md-0  flex-item shadow-sm">
+        <div class="conteudo-personalizar mx-2 mx-md-0 flex-item shadow-sm">
           <div class="text-center titulo-modal p-2">
             <span>Controles</span>
           </div>

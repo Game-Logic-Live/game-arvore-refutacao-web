@@ -1,4 +1,4 @@
-<div class="conteudo-derivacao shadow-sm h-100 d-flex flex-column" >
+<div class="conteudo-derivacao shadow-sm h-100 d-flex flex-column">
   <div
     class="text-center titulo-modal-derivacao p-2"
     [style]="'color:' + color + ';'">
@@ -10,8 +10,14 @@
       [style]="'background-color:' + color + ';'"></div>
   </div>
 
-  <div class="text-center flex-um" style="overflow: auto;" [style]="'max-height:' + maxHeight" id="conteudoDerivacao">
-    <svg [attr.width]="arvoreManager.getArvore().visualizar.width" height="660">
+  <div
+    class="text-center flex-um"
+    style="overflow: auto"
+    [style]="'max-height:' + maxHeight"
+    id="conteudoDerivacao">
+    <svg
+      [attr.width]="arvoreManager.getArvore().visualizar.width"
+      [attr.height]="arvoreManager.getArvore().visualizar.height">
       <g
         *ngFor="
           let item of arvoreManager.getArvore().visualizar.arestas;
@@ -59,22 +65,28 @@
           r="3"
           fill="#AFAFAF" />
         <defs>
-            <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
-                <stop
-                  offset="0%"
-                  [style]="'stop-color:'+colorSecundary+'; stop-opacity: 1'" />
-                <stop
-                  offset="100%"
-                  [style]="'stop-color:'+colorSecundaryFinal+'; stop-opacity: 1'" />
-              </linearGradient>
-              <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
-                <stop offset="0%" [style]="'stop-color: '+colorBase+'; stop-opacity: 1'" />
-                <stop offset="100%" [style]="'stop-color: '+colorBaseFinal+'; stop-opacity: 1'" />
-              </linearGradient>
-              <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="50%" stop-color="#FFFF00" />
-                <stop offset="70%" stop-color="#b91d1d" />
-              </linearGradient>
+          <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
+            <stop
+              offset="0%"
+              [style]="'stop-color:' + colorSecundary + '; stop-opacity: 1'" />
+            <stop
+              offset="100%"
+              [style]="
+                'stop-color:' + colorSecundaryFinal + '; stop-opacity: 1'
+              " />
+          </linearGradient>
+          <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
+            <stop
+              offset="0%"
+              [style]="'stop-color: ' + colorBase + '; stop-opacity: 1'" />
+            <stop
+              offset="100%"
+              [style]="'stop-color: ' + colorBaseFinal + '; stop-opacity: 1'" />
+          </linearGradient>
+          <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="50%" stop-color="#FFFF00" />
+            <stop offset="70%" stop-color="#b91d1d" />
+          </linearGradient>
         </defs>
         <a class="curso-svg">
           <rect
@@ -82,8 +94,8 @@
             [attr.y]="item.posY - 20"
             rx="20"
             ry="20"
-            [attr.width]="item.tmh"
-            height="40"
+            [attr.width]="item.width"
+            [attr.height]="item.height"
             [attr.fill]="item.fill"
             [attr.stroke]="item.strokeColor"
             [attr.stroke-width]="item.strokeWidth"
@@ -109,7 +121,7 @@
         </a>
         <g *ngIf="item.utilizado == true">
           <svg
-            [attr.x]="item.posXlinhaDerivacao + 12"
+            [attr.x]="item.posXlinhaDerivacao +   "
             [attr.y]="item.posY - 10"
             fill="#61CE61">
             <path
